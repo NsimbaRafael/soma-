@@ -28,7 +28,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users',
 ]
+
+AUTH_USER_MODEL = 'users.Usuario'
+ROLEPERMISSIONS_MODULE = 'users.roles'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -66,7 +70,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
        'ENGINE': 'django.db.backends.postgresql',
-       'NAME':'soma+',
+       'NAME':'soma',
        'USER':'postgres',
        'PASSWORD':'210606',
        'HOST':'localhost',
