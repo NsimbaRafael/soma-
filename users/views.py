@@ -11,20 +11,22 @@ def registerView(request):
     if request.method == 'POST':
         form = Registerform(request.POST)
         if form.is_valid():
-            #Criamos o objectivo mas ainda não salvamos no banco de dados
+            #Criamos o objecto mas ainda não salvamos no banco de dados
             user = form.save(commit=False)
             # Criptografando palavra passe
             user.set_password(form.cleaned_data['password'])
             user.save()
 
-            # selected_role = form.cleaned_data.get('role')
-            # if selected_role:
-            #     assign_role(user, selected_role)
+            selected_role = form.cleaned_data.get('role')
+            if selected_role:
+                 assign_role(user, selected_role)
             messages.success(request, 'Conta criada com sucesso')
             return redirect('sigin')
     else:
         form = Registerform()    
     return render(request, 'pages/auth/register.html', {'form':form})    
+
+
         
 
 

@@ -4,7 +4,7 @@ from .models import Usuario
 class Registerform(forms.ModelForm):
     class Meta:
         model = Usuario
-        fields = ['first_name','last_name', 'email', 'password']
+        fields = ['username','first_name','last_name', 'email', 'role', 'password']
 
 class LoginForm(forms.Form):
     email = forms.EmailField(label="Email")
