@@ -2,6 +2,7 @@
 
 from pathlib import Path
 import os
+BASE_DIR=Path(__file__).resolve().parent.parent 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +38,7 @@ ROLEPERMISSIONS_MODULE = 'core.roles'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -111,24 +113,25 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Onde os arquivos estátivos ficam durante o desenvolvimento
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
+# Onde o django vai reuinir todos os arquivos para produção
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-STATIC_URL = 'static/'
-STATICFILES_DIRS =[
-    os.path.join(BASE_DIR, 'static_local')
-]
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static_cdn','static_local')
+# Habilitar o armazenamento com compreensão e cache(Whitenoise)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# o que será usado no navegador para acessar os arquivos
 MEDIA_URL = '/media/'
-MEDIA_ROOT= os.path.join(os.path.dirname(BASE_DIR), 'static_cdn','static_root')
+# Pasta física(caminho do servidor) onde os arquivos serão salvos
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
-#DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = 'daskapp26@gmail.com'
-# EMAIL_HOST_PASSWORD = 'wlqh wapu zkdd aabd'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'daskapp26@gmail.com'
+EMAIL_HOST_PASSWORD = 'wlqh wapu zkdd aabd'
