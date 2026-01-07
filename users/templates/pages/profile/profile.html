@@ -1,0 +1,15 @@
+{% if user.is_authenticated %}
+
+
+<p>Seja bem-vindo <h3>{{user.username}}</h3></p>
+<p>{{user.telefone}}</h3></p>
+<img src="{{ user.imagem.url }}" alt="Avatar de {{ user.username }}" class="profile-img">
+
+
+
+
+<a href="{% url 'logout_views' %}">Logout</a>
+<a href="{% url 'update_profile' %}">Editar</a>
+
+
+{% endif %}

@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
-from  .forms import Registerform, LoginForm
+from  .forms import Registerform, LoginForm, UserUpdateForm
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from rolepermissions.roles import assign_role
+from django.core.mail import send_mail
 
 # Create your views here.
 def registerView(request):
@@ -16,6 +17,13 @@ def registerView(request):
             # Criptografando palavra passe
             user.set_password(form.cleaned_data['password'])
             user.save()
+            send_mail(
+                    subject='Inicio de sessão',
+                    message=f' Sr.{user.username}, Seja bem vindo ao teu ToDoList, agora poderás gerencia melhor as tuas tarefas, sempre que esquecer, a tua app fará questão de lembrar-te',
+                    from_email='daskapp26@gmail.com',
+                    recipient_list=[user.email],
+                   fail_silently=False
+             )
 
             selected_role = form.cleaned_data.get('role')
             if selected_role:
@@ -41,13 +49,36 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, f"Seja bem vindo{user.first_name}!")
-                return redirect(homepage)
+                return redirect(profile)
             else:
                 messages.error(request, "Email ou senha errados")
     else:
         form = LoginForm()
     return render(request, 'pages/auth/login.html', {'form':form})
 
+
+def logout_views(request):
+    logout(request)
+    return redirect('sigin')
+
 @login_required
-def homepage(request):
-    return render(request, 'pages/homepage.html')
+def profile(request):
+    return render(request, 'pages/profile/profile.html')
+
+
+
+@login_required
+def update_profile(request):
+    if request.method == 'POST':
+        form = UserUpdateForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'O seu perfil foi atualizado com sucesso')
+            return redirect(profile)
+    else:
+        form = UserUpdateForm(instance=request.user)
+    context = {
+        'form':form
+    }
+    return render(request,'pages/profile/update_profile.html', context)
+        
