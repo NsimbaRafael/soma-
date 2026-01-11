@@ -32,7 +32,7 @@ def registerView(request):
             return redirect('sigin')
     else:
         form = Registerform()    
-    return render(request, 'pages/auth/register.html', {'form':form})    
+    return render(request, 'auth/register.html', {'form':form})    
 
 
         
@@ -54,7 +54,7 @@ def login_view(request):
                 messages.error(request, "Email ou senha errados")
     else:
         form = LoginForm()
-    return render(request, 'pages/auth/login.html', {'form':form})
+    return render(request, 'auth/login.html', {'form':form})
 
 
 def logout_views(request):
@@ -63,7 +63,7 @@ def logout_views(request):
 
 @login_required
 def profile(request):
-    return render(request, 'pages/profile/profile.html')
+    return render(request, 'profile/profile.html')
 
 
 
@@ -80,5 +80,5 @@ def update_profile(request):
     context = {
         'form':form
     }
-    return render(request,'pages/profile/update_profile.html', context)
+    return render(request,'profile/update_profile.html', context)
         
