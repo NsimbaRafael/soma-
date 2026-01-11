@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load permission_tags %}
+
+
+{% block title %}Login | Soma+{% endblock %}
+
+{% block content %}
+
+    
+    <div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>📚 Materiais de Estudo</h2>
+        {% if user|has_role:'professor' %}
+            <a href="{% url 'upload_material' %}" class="btn btn-primary">
+                <i class="bi bi-plus-lg"></i> Postar Material
+            </a>
+        {% endif %}
+        
+    </div>
+    
+
+    <div class="row">
+        {% for material in materiais %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <span class="badge bg-info text-dark mb-2">{{ material.disciplina.nome }}</span>
+                        
+                        <h5 class="card-title">{{ material.titulo }}</h5>
+                        
+                        <p class="card-text text-muted small">
+                            <i class="bi bi-mortarboard"></i> {{ material.curso.nome }}<br>
+                            <i class="bi bi-calendar3"></i> {{ material.get_ano_escolar_display }}
+                        </p>
+                        
+                        <p class="card-text">{{ material.descricao|truncatechars:100 }}</p>
+                    </div>
+                    
+                     <div class="card-footer bg-transparent border-top-0 d-grid">
+                        <a href="{{ material.arquivo.url }}" class="btn btn-outline-primary" target="_blank">
+                            <i class="bi bi-download"></i> Acessar Material
+                        </a>
+                    </div>
+                    
+                    <div class="card-footer text-muted small">
+                        Postado por: <strong>{{ material.author.username }}</strong>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center">
+                <p class="alert alert-warning">Ainda não há materiais cadastrados para estes filtros.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
