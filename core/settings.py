@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rolepermissions',
     'users',
+    'conteudos'
 ]
 
 AUTH_USER_MODEL = 'users.Usuario'
@@ -135,3 +136,8 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'daskapp26@gmail.com'
 EMAIL_HOST_PASSWORD = 'wlqh wapu zkdd aabd'
+
+
+
+LOGIN_REDIRECT_URL = 'lista_materiais'
+LOGOUT_REDIRECT_URL = 'login'
